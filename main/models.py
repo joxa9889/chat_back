@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, UserManager, Group, Permission
@@ -8,8 +10,8 @@ class UserModel(AbstractUser):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     profile_img = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    bio = models.CharField(max_length=70)
-    last_active = models.DateTimeField(null=True, blank=True)
+    bio = models.CharField(max_length=70, null=True, blank=True)
+    last_active = models.DateTimeField(null=True, blank=True, default=datetime.now)
 
     objects = UserManager()
 

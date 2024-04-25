@@ -112,12 +112,16 @@ class UserStatusConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         print(self.user)
         if self.user:
-            print('what the hell')
-            x = await self.get_my_contacts()
-            await self.send(text_data=json.dumps({
-               'contacts': x
-            }))
+            if 'update' in text_data_json.keys():
+                await self.update_user(text_data_json['field'], text_data_json['value'])
+                print('worked')
+            else:
+                x = await self.get_my_contacts()
+                await self.send(text_data=json.dumps({
+                   'contacts': x
+                }))
             return
+
         print('what')
         token = text_data_json["token"]
         await self.set_user_status(token=token)
@@ -169,3 +173,12 @@ class UserStatusConsumer(AsyncWebsocketConsumer):
 
         self.user.last_active = date
         self.user.save()
+
+    @database_sync_to_async
+    def update_user(self, field, data_replace):
+        print('aaa')
+        setattr(self.user, field, data_replace)
+        self.user.save()
+        print('work')
+        print(self.user.first_name)
+        return 'successfully updated'

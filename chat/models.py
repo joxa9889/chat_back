@@ -7,4 +7,5 @@ class StoriesModel(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     video = models.FileField(upload_to='stories/')
+    is_img = models.BooleanField(default=False)
 

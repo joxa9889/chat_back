@@ -7,11 +7,14 @@ from rest_framework import serializers
 class UsersForStoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ['username']
+        fields = ['username', 'profile_img', 'first_name', 'last_name']
 
     def to_representation(self, instance):
         data = super(UsersForStoriesSerializer, self).to_representation(instance)
         data['storieses'] = StoriesModel.objects.filter(user__username=instance.username).values()
-        return data
+        if data['storieses']:
+            data = dict(data)
+            return data
+        return
 
 

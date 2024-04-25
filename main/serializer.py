@@ -12,7 +12,7 @@ from django.db.models import Q
 class ProfileModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ['id', 'first_name', 'last_name', 'username', 'profile_img', 'last_active', 'password']
+        fields = ['id', 'first_name', 'last_name', 'username', 'profile_img', 'last_active', 'bio', 'password']
 
     def create(self, validated_data):
         print(validated_data)
